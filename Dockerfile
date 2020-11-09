@@ -1,7 +1,9 @@
 FROM docker:latest
 
 MAINTAINER Nemanja Spasic
+ENV GLIBC_VER=2.31-r0
 
+# install glibc compatibility for alpine
 RUN apk --no-cache add \
         binutils \
         curl \
@@ -9,8 +11,8 @@ RUN apk --no-cache add \
     && curl -sLO https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VER}/glibc-${GLIBC_VER}.apk \
     && curl -sLO https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VER}/glibc-bin-${GLIBC_VER}.apk \
     && apk add --no-cache \
-        glibc \
-        glibc-bin
+        glibc-${GLIBC_VER}.apk \
+        glibc-bin-${GLIBC_VER}.apk 
 
 RUN apk add --update --no-cache build-base python3-dev python3 libffi-dev libressl-dev bash git gettext curl \
  && curl -O https://bootstrap.pypa.io/get-pip.py \
